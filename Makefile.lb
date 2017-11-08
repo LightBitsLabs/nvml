@@ -1,0 +1,14 @@
+include $(WORKSPACE_TOP)/common/Makefile.env
+
+PMEM_INSTALL_DIR ?= $(shell component-tool localpath --repo=nvml --type=$(BUILD_TYPE) pmem-sdk)
+
+build: 
+	$(Q)$(MAKE)
+
+install: build
+	$(Q)$(MAKE)  -C src install prefix=$(PMEM_INSTALL_DIR)
+
+checkin: 
+	$(Q)component-tool checkin --repo=nvml --type=$(BUILD_TYPE) pmem-sdk
+
+.PHONY: install checkin 
