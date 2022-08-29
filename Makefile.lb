@@ -2,11 +2,23 @@ include $(WORKSPACE_TOP)/common/Makefile.env
 
 PMEM_INSTALL_DIR ?= $(shell component-tool localpath --repo=nvml --type=$(BUILD_TYPE) pmem-sdk)
 
+ifeq ($(ARCHITECTURE), x86-64)
+
 build: 
 	$(Q)$(MAKE)
 
 install: build
 	$(Q)$(MAKE)  -C src install prefix=$(PMEM_INSTALL_DIR)
+
+else
+
+build:
+	$(Q)echo "dummy nvml built for $(ARCHITECTURE)"
+
+install: build
+	$(Q)mkdir -p $(PMEM_INSTALL_DIR)
+
+endif
 
 checkin: 
 	$(Q)component-tool checkin --repo=nvml --type=$(BUILD_TYPE) pmem-sdk
