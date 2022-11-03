@@ -1,0 +1,9 @@
+include $(WORKSPACE_TOP)/lb_containers/Makefile.container
+
+
+TARGETS := build install checkin
+
+$(TARGETS): proto_container
+	${Q}run_in_container -i lbproto:${LBPROTO_CONTAINER_VERSION} -c "${MAKE} -f Makefile.lb EXTRA_CFLAGS=\"-Wno-maybe-uninitialized -Wno-switch-outside-range -fPIC -Wno-array-parameter\" $@ -j10"
+
+.PHONY:	$(TARGETS)
