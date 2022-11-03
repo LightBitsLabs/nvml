@@ -1,0 +1,8 @@
+nvml:
+  pmem-sdk:
+    build:
+      - make -f Makefile.container all
+    install:
+      - make -f Makefile.container install
+    deps:
+      - file://.
