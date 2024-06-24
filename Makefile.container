@@ -1,0 +1,9 @@
+include $(WORKSPACE_TOP)/lb_containers/Makefile.container
+
+
+TARGETS := $(shell make -f Makefile.lb list_flat)
+
+$(TARGETS): proto_container
+	${Q}run_in_container -i lbproto:${LBPROTO_CONTAINER_VERSION} -- ${MAKE} -f Makefile.lb 'EXTRA_CFLAGS=-Wno-maybe-uninitialized -Wno-switch-outside-range -fPIC -Wno-array-parameter' $@ -j10
+
+.PHONY:	$(TARGETS)
